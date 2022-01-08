@@ -53,7 +53,7 @@ namespace ERP_Web_App.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("BrandId,BrandName,IsActive,CreatedBy,CreatedOn,UpdatedBy,UpdatedOn")] Brand brand)
+        public async Task<IActionResult> Create([Bind("BrandId,BrandName,IsActive")] Brand brand)
         {
             brand.CreatedBy = "Tester";
             if (ModelState.IsValid)
@@ -86,8 +86,10 @@ namespace ERP_Web_App.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("BrandId,BrandName,IsActive,CreatedBy,CreatedOn,UpdatedBy,UpdatedOn")] Brand brand)
+        public async Task<IActionResult> Edit(int id, [Bind("BrandId,BrandName,IsActive")] Brand brand)
         {
+            brand.UpdatedBy = "Tester";
+            brand.UpdatedOn = DateTime.Now;
             if (id != brand.BrandId)
             {
                 return NotFound();

@@ -21,8 +21,10 @@ namespace ERP_Web_App.Controllers
         // GET: Source
         public async Task<IActionResult> Index()
         {
-            var appDbContext = _context.SourceMaster.Include(s => s.Brand);
-            return View(await appDbContext.ToListAsync());
+            var appDbContext = await _context.SourceMaster.Include(s => s.Model)
+                                .Include(s => s.Brand)
+                                .ToListAsync();
+            return View(appDbContext);
         }
 
         // GET: Source/Details/5
@@ -47,6 +49,7 @@ namespace ERP_Web_App.Controllers
         // GET: Source/Create
         public IActionResult Create()
         {
+            ViewData["ModelId"] = new SelectList(_context.ModelMaster, "ModelId", "ModelName");
             ViewData["BrandId"] = new SelectList(_context.BrandMaster, "BrandId", "BrandName");
             return View();
         }
@@ -56,8 +59,9 @@ namespace ERP_Web_App.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("SourceId,Date,SourceName,LotNo,RAM,ROM,Color,IMEI,IMEI2,CreatedBy,CreatedOn,UpdatedBy,UpdatedOn,BrandId,ModelId")] Source source)
+        public async Task<IActionResult> Create([Bind("SourceId,Date,SourceName,LotNo,RAM,ROM,Color,IMEI,IMEI2,BrandId,ModelId")] Source source)
         {
+            source.CreatedBy = "Tester";
             if (ModelState.IsValid)
             {
                 _context.Add(source);
@@ -65,6 +69,7 @@ namespace ERP_Web_App.Controllers
                 return RedirectToAction(nameof(Index));
             }
             ViewData["BrandId"] = new SelectList(_context.BrandMaster, "BrandId", "BrandName", source.BrandId);
+            ViewData["ModelId"] = new SelectList(_context.ModelMaster, "ModelId", "ModelName", source.ModelId);
             return View(source);
         }
 
@@ -82,6 +87,7 @@ namespace ERP_Web_App.Controllers
                 return NotFound();
             }
             ViewData["BrandId"] = new SelectList(_context.BrandMaster, "BrandId", "BrandName", source.BrandId);
+            ViewData["ModelId"] = new SelectList(_context.ModelMaster, "ModelId", "ModelName", source.ModelId);
             return View(source);
         }
 
@@ -90,8 +96,10 @@ namespace ERP_Web_App.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(long id, [Bind("SourceId,Date,SourceName,LotNo,RAM,ROM,Color,IMEI,IMEI2,CreatedBy,CreatedOn,UpdatedBy,UpdatedOn,BrandId,ModelId")] Source source)
+        public async Task<IActionResult> Edit(long id, [Bind("SourceId,Date,SourceName,LotNo,RAM,ROM,Color,IMEI,IMEI2,CreatedBy,CreatedOn,BrandId,ModelId,")] Source source)
         {
+            source.UpdatedBy = "Tester";
+            source.UpdatedOn = DateTime.Now;
             if (id != source.SourceId)
             {
                 return NotFound();
@@ -118,6 +126,7 @@ namespace ERP_Web_App.Controllers
                 return RedirectToAction(nameof(Index));
             }
             ViewData["BrandId"] = new SelectList(_context.BrandMaster, "BrandId", "BrandName", source.BrandId);
+            ViewData["ModelId"] = new SelectList(_context.ModelMaster, "ModelId", "ModelName", source.ModelId);
             return View(source);
         }
 
