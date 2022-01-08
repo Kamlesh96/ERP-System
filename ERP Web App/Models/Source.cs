@@ -28,10 +28,8 @@ namespace ERP_Web_App.Models
         [Required]
         public string IMEI { get; set; }
         public string IMEI2 { get; set; }
-        [Required]
         [Display(Name = "Created By")]
         public string CreatedBy { get; set; }
-        [Required]
         [Display(Name = "Created On")]
         public DateTime CreatedOn { get; set; } = DateTime.Now;
         [Display(Name = "Updated By")]

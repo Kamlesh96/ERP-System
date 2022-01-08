@@ -55,6 +55,7 @@ namespace ERP_Web_App.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("BrandId,BrandName,IsActive,CreatedBy,CreatedOn,UpdatedBy,UpdatedOn")] Brand brand)
         {
+            brand.CreatedBy = "Tester";
             if (ModelState.IsValid)
             {
                 _context.Add(brand);

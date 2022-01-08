@@ -16,11 +16,9 @@ namespace ERP_Web_App.Models
         public string BrandName { get; set; }
         [Required]
         public bool IsActive { get; set; } = true;
-        [Required]
         [Display(Name = "Created By")]
         public string CreatedBy { get; set; }
         [Display(Name = "Created On")]
-        [Required]
         public DateTime CreatedOn { get; set; } = DateTime.Now;
         [Display(Name = "Updated By")]
         public string UpdatedBy { get; set; }
